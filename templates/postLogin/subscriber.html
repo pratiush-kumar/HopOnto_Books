@@ -1,0 +1,77 @@
+{% extends 'postLogin/common.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning me-3 ms-3">
+        {{ message }}
+    </div>
+{% endfor %}
+<div class="row m-3 p-4 bg-white bg-opacity-75">
+    <div class="col row">    
+        <div class="row">
+            <div class="col-3">ID</div>
+            <div class="col-1">:</div>
+            <div class="col">{{subscriber.CardNo}}</div>
+        </div>
+        <div class="row">
+            <div class="col-3">Name</div>
+            <div class="col-1">:</div>
+            <div class="col">{{subscriber.Name}}</div>
+        </div>
+        <div class="row">
+            <div class="col-3">Email</div>
+            <div class="col-1">:</div>
+            <div class="col">{{subscriber.Email}}</div>
+        </div>
+        <div class="row">
+            <div class="col-3">Contact</div>
+            <div class="col-1">:</div>
+            <div class="col">{{subscriber.Contact}}</div>
+        </div>
+        <div class="row">
+            <div class="col-3">Type</div>
+            <div class="col-1">:</div>
+            <div class="col">{{subscriber.Type}} Books</div>
+        </div>
+        <div class="row">
+            <div class="col-3">Length</div>
+            <div class="col-1">:</div>
+            <div class="col">{{subscriber.TimePeriod}} Months</div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col-3">Due</div>
+            <div class="col-1">:</div>
+            <div class="col {{status}}">{{subscriber.DueDate.strftime('%d-%m-%Y')}}</div>
+        </div><br />
+        <div class="row">
+            <div class="col-3">Expiry</div>
+            <div class="col-1">:</div>
+            <div class="col {{memberStatus}}">{{subscriber.Duration.strftime('%d-%m-%Y')}}</div>
+        </div><br />
+        <form method="post" action="/renew_subscription">
+            <input type="hidden" id="subscriberID" name="subscriberID" value="{{subscriber.CardNo}}">
+            <input class="btn btn-success w-50" type="submit" value="Renew Subscription">
+        </form>
+        <br />
+        {% if subscriber.Books|length>0 %}
+            <div class="row">
+                <div class="col-3">Issued</div>
+                <div class="col-1">:</div>
+                <div class="col d-inline-flex">
+                {% for book in subscriber.Books %}
+                    <div class="ps-5"><a class="text-primary" href="/book/{{book}}">{{book}}</a></div>
+                {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <form method="post" action="/delete_subscriber">
+                <input type="hidden" id="subscriberID" name="subscriberID" value="{{subscriber.CardNo}}">
+                <input class="btn btn-danger w-50" type="submit" value="Delete Subscription">
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    color: yellow;
+}
+a:focus{
+    color: yellow;
+    outline: none;
+}
+body{
+    background: url(/static/images/background.jpg) no-repeat center center;
+}
+img{
+    height: 60px;
+}

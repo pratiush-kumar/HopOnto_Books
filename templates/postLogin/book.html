@@ -1,0 +1,87 @@
+{% extends 'postLogin/common.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning me-3 ms-3">
+        {{ message }}
+    </div>
+{% endfor %}
+
+<div class="row m-3 p-4 bg-white bg-opacity-75">
+    <div class="col">
+        <div class="row">
+            <div class="col-3">ID</div>
+            <div class="col-1">:</div>
+            <div class="col">{{book.BookID}}</div>
+        </div>
+        <div class="row">
+            <div class="col-3">Title</div>
+            <div class="col-1">:</div>
+            <div class="col">{{book.Title}}</div>
+        </div>
+        <div class="row">
+            <div class="col-3">Authors</div>
+            <div class="col-1">:</div>
+            <div class="col">
+                {% for author in book.Authors %}
+                    {{author}} &nbsp;
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        {% if book.IssuedTo>=0 %}
+            <div class="row">
+                <div class="col">Issuer's Card ID</div>
+                <div class="col-1">:</div>
+                <div class="col"><a class="text-primary" href="/subscriber/{{book.IssuedTo}}">{{book.IssuedTo}}</a></div>
+            </div>
+            <div class="row">
+                <div class="col">Return</div>
+                <div class="col-1">:</div>
+                <div class="col {{status}}">{{book.IssueDate|string|truncate(10, end="")}}</div>
+            </div>
+            <form method="post" action="/return_book">
+                <input type="hidden" id="bookID" name="bookID" value="{{book.BookID}}">
+                <input type="hidden" id="subscriberID" name="subscriberID" value="{{book.IssuedTo}}">
+                <input class="btn btn-primary w-100 mt-3" type="submit" value="Return Book">
+            </form>
+        {% else %}
+            <form method="post" action="/issue_book">
+                <input type="hidden" id="bookID" name="bookID" value="{{book.BookID}}">
+                <input class="form-control text-center" autocomplete="off" type="tel" id="subscriberID" name="subscriberID" pattern="[0-9]*" placeholder="Enter Issuer Card Number" required>
+                <div class="row mt-2 mb-2">
+                    <label class="col-5 pt-1" for="returnDate">Return Date (Optional) :</label>
+                    <input class="col me-3 form-control text-center" autocomplete="off" type="date" id="issueDate" name="issueDate">
+                </div>
+                <input class="btn btn-success w-100" type="submit" value="Issue Book">
+            </form>
+        {% endif %}
+    </div>
+    <div class="col">
+        <form method="post" action="/add_new_book">
+            <input type="hidden" id="title" name="title" value="{{book.Title}}">
+            {% if book.Authors|length>0 %}
+                <input type="hidden" id="author1" name="author1" value="{{book.Authors[0]}}">
+            {% else %}
+                <input type="hidden" id="author1" name="author1" value="">
+            {% endif %}
+            {% if book.Authors|length>1 %}
+                <input type="hidden" id="author2" name="author2" value="{{book.Authors[1]}}">
+            {% else %}
+                <input type="hidden" id="author2" name="author2" value="">
+            {% endif %}
+            <input type="hidden" id="id" name="id" value="">
+            <input class="btn btn-primary w-100 mb-3" type="submit" value="Add Copy of the Book">
+        </form>
+        {% if 0>book.IssuedTo %}
+            <form method="post" action="/delete_book">
+                <input type="hidden" id="bookID" name="bookID" value="{{book.BookID}}">
+                <input class="btn btn-danger w-100" type="submit" value="Delete Book">
+            </form> 
+        {% endif %}       
+    </div>
+</div>
+
+{% endblock %}

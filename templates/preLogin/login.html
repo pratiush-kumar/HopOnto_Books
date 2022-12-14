@@ -1,0 +1,19 @@
+{% extends 'preLogin/common.html' %}
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning me-3 ms-3">
+        {{ message }}
+    </div>
+{% endfor %}
+<div>
+    <form method="post" action="/login_verification">
+        <div class="d-inline-flex p-5">
+            <input class="form-control text-center me-3" type="text" id="username" name="username" placeholder="Enter Username" required>
+            <input class="form-control text-center me-3" type="password" id="password" name="password" placeholder="Enter Password" required>
+            <input class="btn btn-primary w-50" type="submit" value="Login">
+        </div>
+    </form> 
+</div>
+
+{% endblock %}

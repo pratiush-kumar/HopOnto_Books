@@ -1,0 +1,20 @@
+{% extends 'postLogin/common.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning me-3 ms-3">
+        {{ message }}
+    </div>
+{% endfor %}
+<form method="post" action="/add_new_book">
+    <div class="row me-3 ms-3 p-4 bg-white bg-opacity-75">
+        <input class="col me-3 form-control text-center" autocomplete="off" type="text" id="title" name="title" placeholder="Enter Book Title" required>
+        <input class="col me-3 form-control text-center" autocomplete="off" type="text" id="author1" name="author1" placeholder="Enter First Author (Optional)">
+        <input class="col me-3 form-control text-center" autocomplete="off" type="text" id="author2" name="author2" placeholder="Enter Second Author (Optional)">
+        <input class="col me-3 form-control text-center" autocomplete="off" type="number" id="id" name="id" placeholder="Enter Book ID (Optional)">
+        <input class="col btn btn-primary" type="submit" value="Add Book">
+    </div>
+</form>
+
+{% endblock %}

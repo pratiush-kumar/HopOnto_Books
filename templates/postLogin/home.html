@@ -1,0 +1,49 @@
+{% extends 'postLogin/common.html' %}
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning me-3 ms-3">
+        {{ message }}
+    </div>
+{% endfor %}
+<div class="row">
+    <div class="col-6">
+        <div class="row bg-white fs-5 text-center p-3 shadow m-3 rounded fw-bold">
+            <div class="col-3">ID</div>
+            <div class="col-6">Title</div>
+            <div class="col-3">Due</div>
+        </div>
+        {% for book in book_list %}
+        <a href="/book/{{book.BookID}}">
+            <div class="row text-center p-4 shadow m-3 rounded {{book.colour}} bg-gradient">
+                <div class="col-3">{{book.BookID}}</div>
+                <div class="col-6">{{book.Title}}</div>
+                <div class="col-3">
+                    {% if book.IssuedTo!=-1 %}
+                        {{book.daysLeft}} Days
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    <div class="col">
+        <div class="row bg-white fs-5 text-center p-3 shadow m-3 rounded">
+            <div class="col-1">ID</div>
+            <div class="col-6">Name</div>
+            <div class="col-2">Books</div>
+            <div class="col-3">Due</div>
+        </div>
+        {% for subscriber in subscriber_list %}
+        <a href="/subscriber/{{subscriber.CardNo}}">
+            <div class="row text-center p-4 shadow m-3 rounded {{subscriber.colour}} bg-gradient">
+                <div class="col-1">{{subscriber.CardNo}}</div>
+                <div class="col-6">{{subscriber.Name}}</div>
+                <div class="col-2">{{subscriber.Books|length}}</div>
+                <div class="col-3">{{subscriber.daysLeft}} Days</div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

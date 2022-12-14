@@ -1,0 +1,37 @@
+{% extends 'postLogin/common.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+    <div class="alert alert-warning me-3 ms-3">
+        {{ message }}
+    </div>
+{% endfor %}
+<form class="ms-3 me-3 p-4 bg-white bg-opacity-75" method="post" action="/add_new_subscriber">
+    <div class="row">
+        <input class="col me-2 form-control text-center" autocomplete="off" type="text" id="name" name="name" placeholder="Enter Name" required>
+        <input class="col me-2 form-control text-center" autocomplete="off" type="email" id="email" name="email" placeholder="Enter Email-Id" required>
+        <input class="col me-2 form-control text-center" autocomplete="off" type="tel" id="contact" name="contact" pattern="[0-9]{10}" placeholder="Enter 10-digit Contact Number" required>
+    </div><br />
+    <div class="row">
+        <label for="subscriptionDate">Subscription Start Date (Optional) :</label>
+        <input class="col me-2 form-control text-center" autocomplete="off" type="date" id="subscriptionDate" name="subscriptionDate">
+        <input class="col me-2 form-control text-center" autocomplete="off" type="number" id="id" name="id" placeholder="Enter Card Number (Optional)">
+        <select class="col me-2 form-control text-center" name="subscriptionType" id="subscriptionType">
+            <option value="1">1 Book</option>
+            <option value="2">2 Books</option>
+            <option value="3">3 Books</option>
+            <option value="4">4 Books</option>
+        </select>
+        <select class="col me-2 form-control text-center" name="subscriptionDuration" id="subscriptionDuration">
+            <option value="1">1 Month</option>
+            <option value="3">3 Months</option>
+            <option value="6">6 Months</option>
+            <option value="12">1 Year</option>
+        </select>
+        <input class="col btn btn-primary" type="submit" value="Create Subscriber">
+    </div>
+</form> 
+
+
+{% endblock %}
