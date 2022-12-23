@@ -102,7 +102,7 @@ def registration_verification():
         return redirect('/registration')
     password_hash = bcrypt.hashpw(password2.encode('utf-8'), bcrypt.gensalt())
     Credentials.insert_one({ "username":username, "password":password_hash, "email":email, "contact":contact })
-    flash("Registration successful. Please enter your credentials to Login")
+    flash("Registration successful")
     return redirect('/home')
 
 @app.route("/add_book")
